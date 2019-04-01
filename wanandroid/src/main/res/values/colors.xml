@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3FA862</color>
+
+    <color name="colorPrimaryDark">#3FA862</color>
+
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="white">#FFFFFF</color>
+
+    <color name="green">#41A24E</color>
+
+    <color name="black">#000000</color>
+
+    <color name="color_00bda5">#00bda5</color>
+
+    <color name="color_00bda5_half">#8000bda5</color>
+
+    <color name="color_666666">#666666</color>
+
+    <color name="color_aaaaaa">#aaaaaa</color>
+
+    <color name="color_bbbbbb">#bbbbbb</color>
+
+    <color name="color_cccccc">#cccccc</color>
+
+    <color name="color_eeeeee">#eeeeee</color>
+
+    <color name="transparent">#00ffffff</color>
+
+    <color name="transparent_half">#80000000</color>
+
+    <color name="transparent_80">#32000000</color>
+
+    <color name="gray">#CCCCCC</color>
+
+    <color name="color_dddddd">#dddddd</color>
+
+    <color name="color_34d6bd">#34d6bd</color>
+
+    <color name="teal_00bea5">#00BEA5</color>
+
+    <color name="grey">#E2E2E2</color>
+
+    <color name="grey_252525">#252525</color>
+
+    <color name="grey_bbbbbb">#bbbbbb</color>
+
+    <color name="grey_333333">#333333</color>
+
+    <color name="grey_666666">#666666</color>
+
+    <color name="grey_999999">#999999</color>
+
+    <color name="grey_d9d9d9">#D9D9D9</color>
+
+    <color name="grey_f4f4f4">#F4F4F4</color>
+
+    <color name="grey_faf8f8">#faf8f8</color>
+
+    <color name="color_grey_394356">#394356</color>
+
+    <color name="color_565656">#565656</color>
+
+    <color name="color_00bea5">#00bea5</color>
+
+    <color name="color_f44336">#f44336</color>
+
+    <color name="color_f44336_half">#80f44336</color>
+
+    <color name="color_ff0000_80">#ccff0000</color>
+
+    <color name="color_f5f5f5">#F5F5F5</color>
+
+    <color name="color_41a34e">#41A34E</color>
+
+    <color name="color_01cbd2">#01CBD2</color>
+
+    <color name="color_ecf6ed">#ECF6ED</color>
+
+    <color name="color_ecf5ed">#ECF5ED</color>
+
+    <color name="color_41a24e">#41A24E</color>
+
+    <color name="color_288433">#288433</color>
+
+    <color name="color_ff7272">#ff7272</color>
+
+    <color name="color_green_45D358">#45D358</color>
+
+    <color name="color_green_ECF6ED">#ECF6ED</color>
+
+    <color name="color_ffe3e3">#FFE3E3</color>
+
+    <color name="color_d8d8d8">#D8D8D8</color>
+
+    <color name="color_566ffe">#566FFE</color>
+
+    <color name="color_707070">#707070</color>
+
+    <color name="color_11aaee">#11AAEE</color>
+</resources>

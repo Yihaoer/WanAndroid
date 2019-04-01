@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:id="@+id/left_nav_menu_group_1"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_follow"
+            android:checkable="true"
+            android:checked="false"
+            android:icon="@mipmap/ic_nav_menu_follow"
+            android:title="我的关注" />
+        <item
+            android:id="@+id/nav_collect"
+            android:checkable="true"
+            android:checked="false"
+            android:icon="@mipmap/ic_nav_menu_collect"
+            android:title="我的收藏"/>
+        <item
+            android:id="@+id/nav_setup"
+            android:checkable="true"
+            android:checked="false"
+            android:icon="@mipmap/ic_nav_menu_setup"
+            android:title="系统设置"/>
+    </group>
+</menu>

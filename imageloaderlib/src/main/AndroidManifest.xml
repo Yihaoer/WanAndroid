@@ -1,0 +1,9 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.header.imageloaderlib">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <application>
+        <meta-data
+            android:name="com.header.imageloaderlib.config.GlideModelConfig"
+            android:value="GlideModule" />
+    </application>
+</manifest>
