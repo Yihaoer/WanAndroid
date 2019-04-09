@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="150dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="10dp"
+    app:contentPadding="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/article_envelope_pic"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp">
+
+            <TextView
+                android:id="@+id/article_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="aaa"
+                android:textColor="@color/grey_666666"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/article_desc_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/article_title_tv"
+                android:layout_marginTop="15dp"
+                android:text="bbb"
+                android:textColor="@color/grey_666666"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/article_date_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:text="ccc"
+                android:textColor="@color/grey_666666"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/article_author_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/article_date_tv"
+                android:text="ddd"
+                android:textColor="@color/grey_666666"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/collection_iv"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:src="@mipmap/ic_collection" />
+        </RelativeLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>
+
+

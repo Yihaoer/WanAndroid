@@ -1,11 +1,14 @@
 package com.yihaoer.wyh.wanandroid.mvp.ui.adapter;
 
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.util.Log;
 
 import com.yihaoer.wyh.wanandroid.mvp.ui.entity.ProjectTypeItem;
+import com.yihaoer.wyh.wanandroid.mvp.ui.fragment.ProjectArticleFragment;
 
 import java.util.List;
 
@@ -16,9 +19,9 @@ import java.util.List;
 public class ProjectFragmentPageAdapter extends FragmentPagerAdapter {
 
     private List<ProjectTypeItem> projectTypeList;
-    private List<Fragment> fragmentList;
+    private List<ProjectArticleFragment> fragmentList;
 
-    public ProjectFragmentPageAdapter(FragmentManager fm, List<Fragment> fragmentList, List<ProjectTypeItem> projectTypeList) {
+    public ProjectFragmentPageAdapter(FragmentManager fm, List<ProjectArticleFragment> fragmentList, List<ProjectTypeItem> projectTypeList) {
         super(fm);
         this.fragmentList = fragmentList;
         this.projectTypeList = projectTypeList;
@@ -26,6 +29,15 @@ public class ProjectFragmentPageAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int i) {
+//        ProjectArticleFragment fragment = fragmentList.get(i);
+//        if (fragment != null){
+//            return fragment;
+//        }else {
+//            Bundle bundle = new Bundle();
+//            bundle.putInt("cid",projectTypeList.get(i).getId());
+//            fragment = ProjectArticleFragment.newInstance();
+//            fragmentList.add(fragment);
+//        }
         return fragmentList.get(i);
     }
 
@@ -38,5 +50,13 @@ public class ProjectFragmentPageAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         return projectTypeList.get(position).getName();
+    }
+
+    public void setData(List<ProjectArticleFragment> fragmentList, List<ProjectTypeItem> projectTypeList){
+//        this.fragmentList = fragmentList;
+//        this.projectTypeList = projectTypeList;
+        this.fragmentList.addAll(fragmentList);
+        this.projectTypeList.addAll(projectTypeList);
+        notifyDataSetChanged();
     }
 }

@@ -31,10 +31,11 @@ import butterknife.BindView;
 public class ProjectFragment extends SupportFragment<ProjectPresenter> implements ProjectContract.View {
 
     private View mRootView;
-    private FragmentPagerAdapter mFragmentPagerAdapter;
+    private ProjectFragmentPageAdapter mFragmentPagerAdapter;
     private FragmentManager mFragmentManager;
-    private List<Fragment> mFragmentList = new ArrayList<>();
+    private List<ProjectArticleFragment> mFragmentList = new ArrayList<>();
     private List<ProjectTypeItem> mProjectTypeList = new ArrayList<>();
+    private ProjectArticleFragment mProjectArticleFragment;
 
     @BindView(R.id.project_tablayout)
     TabLayout mTabLayout;
@@ -77,6 +78,7 @@ public class ProjectFragment extends SupportFragment<ProjectPresenter> implement
     public void showProjectTypeData(List<ProjectTypeItem> projectTypeBeanList) {
         this.mProjectTypeList = projectTypeBeanList;
         initViewPagerAndTabLayout();
+        addProjectArticleFragment();
     }
 
     @Override
@@ -104,15 +106,29 @@ public class ProjectFragment extends SupportFragment<ProjectPresenter> implement
 
     }
 
+    /**
+     * 初始化ViewPager和TabLayout
+     */
     private void initViewPagerAndTabLayout() {
         mFragmentManager = getActivity().getSupportFragmentManager();
+//        for (int i = 0; i <mProjectTypeList.size() ; i++) {
+//            mFragmentList.add(ProjectArticleFragment.newInstance());
+//            mTabLayout.addTab(mTabLayout.newTab());
+//        }
         mFragmentPagerAdapter = new ProjectFragmentPageAdapter(mFragmentManager, mFragmentList, mProjectTypeList);
         mViewPager.setAdapter(mFragmentPagerAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
+//        for (int i = 0; i <mProjectTypeList.size() ; i++) {
+//            mTabLayout.getTabAt(i).setText(mFragmentPagerAdapter.getPageTitle(i));
+//        }
+        for (int i = 0; i <mProjectTypeList.size() ; i++) {
+            mTabLayout.addTab(mTabLayout.newTab().setText(mFragmentPagerAdapter.getPageTitle(i)));
+        }
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 mViewPager.setCurrentItem(tab.getPosition());
+//                addProjectArticleFragment(tab.getPosition());
             }
 
             @Override
@@ -125,5 +141,25 @@ public class ProjectFragment extends SupportFragment<ProjectPresenter> implement
 
             }
         });
+    }
+
+    private void addProjectArticleFragment(){
+//        ProjectArticleFragment fragment = mFragmentList.get(position);
+//        if (fragment != null){
+//            return;
+//        }else {
+//            Bundle bundle = new Bundle();
+//            bundle.putInt("cid",mProjectTypeList.get(position).getId());
+//            fragment = ProjectArticleFragment.newInstance();
+//            mFragmentList.add(fragment);
+//        }
+//        mFragmentPagerAdapter.setData(mFragmentList,mProjectTypeList);
+        for (int i = 0;i<mProjectTypeList.size();i++){
+            Bundle bundle = new Bundle();
+            bundle.putInt("cid",mProjectTypeList.get(i).getId());
+            mProjectArticleFragment = ProjectArticleFragment.newInstance(bundle);
+            mFragmentList.add(mProjectArticleFragment);
+        }
+        mFragmentPagerAdapter.setData(mFragmentList,mProjectTypeList);
     }
 }
