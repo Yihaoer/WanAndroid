@@ -1,4 +1,4 @@
-package com.yihaoer.wyh.wanandroid.mvp.ui.adapter.entity;
+package com.yihaoer.wyh.wanandroid.mvp.ui.entity;
 
 /**
  * Author: Yihaoer

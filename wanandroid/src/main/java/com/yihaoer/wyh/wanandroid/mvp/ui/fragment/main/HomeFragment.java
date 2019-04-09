@@ -1,6 +1,5 @@
 package com.yihaoer.wyh.wanandroid.mvp.ui.fragment.main;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,18 +7,15 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
-import com.header.imageloaderlib.agent.PictureLoader;
 import com.jess.arms.di.component.AppComponent;
+import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
-import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
-import com.scwang.smartrefresh.layout.header.BezierRadarHeader;
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.yihaoer.wyh.wanandroid.R;
@@ -29,7 +25,7 @@ import com.yihaoer.wyh.wanandroid.di.module.HomeModule;
 import com.yihaoer.wyh.wanandroid.mvp.contract.HomeContract;
 import com.yihaoer.wyh.wanandroid.mvp.presenter.HomePresenter;
 import com.yihaoer.wyh.wanandroid.mvp.ui.adapter.HomeRecyclerViewAdapter;
-import com.yihaoer.wyh.wanandroid.mvp.ui.adapter.entity.HomeArticleItem;
+import com.yihaoer.wyh.wanandroid.mvp.ui.holder.BannerViewHolder;
 import com.zhouwei.mzbanner.MZBannerView;
 import com.zhouwei.mzbanner.holder.MZHolderCreator;
 import com.zhouwei.mzbanner.holder.MZViewHolder;
@@ -41,11 +37,15 @@ import butterknife.BindView;
 public class HomeFragment extends SupportFragment<HomePresenter> implements HomeContract.View {
 
     private View mRootView;
+    private HomeRecyclerViewAdapter mAdapter;
+    private MZBannerView mBanner;
+    private View mHeaderView;
+    private int mPageId = 0;
 
-    @BindView(R.id.home_banner)
-    MZBannerView mBanner;
+    //    @BindView(R.id.home_banner)
+    //    MZBannerView mBanner;
 
-    @BindView(R.id.refreshLayout)
+    @BindView(R.id.home_refresh_layout)
     RefreshLayout mRefreshLayout;
 
     @BindView(R.id.home_recyclerview)
@@ -77,7 +77,7 @@ public class HomeFragment extends SupportFragment<HomePresenter> implements Home
     public void initData(@Nullable Bundle savedInstanceState) {
         initRefreshLayout();
         mPresenter.loadBannerData(false);
-        mPresenter.loadHomeArticleData(0, false);
+        mPresenter.loadHomeArticleData(mPageId, true, false);
     }
 
     @Override
@@ -113,79 +113,81 @@ public class HomeFragment extends SupportFragment<HomePresenter> implements Home
     @Override
     public void onStart() {
         super.onStart();
-        mBanner.start();//开始轮播
+        if (mBanner != null)
+            mBanner.start();//开始轮播
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        mBanner.pause();//暂停轮播
+        if (mBanner != null)
+            mBanner.pause();//暂停轮播
     }
 
     /**
      * 初始化下拉刷新和上拉加载
      */
     public void initRefreshLayout() {
-        //设置 Header 为 贝塞尔雷达 样式
-        mRefreshLayout.setRefreshHeader(new BezierRadarHeader(mContext).setEnableHorizontalDrag(true));
-        //设置 Footer 为 球脉冲 样式
-        mRefreshLayout.setRefreshFooter(new BallPulseFooter(mContext).setSpinnerStyle(SpinnerStyle.Scale));
+        //设置 Header 为 官方主题 样式
+        mRefreshLayout.setRefreshHeader(new MaterialHeader(mContext));
+        //设置 Footer 为 正在加载 样式
+        mRefreshLayout.setRefreshFooter(new ClassicsFooter(mContext).setSpinnerStyle(SpinnerStyle.Scale));
 
         //下拉刷新监听
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
                 mPresenter.loadBannerData(false);
-                mRefreshLayout.finishRefresh(2000);
+                mPresenter.loadHomeArticleData(0, true, false);
+                mPageId = 0; //下拉刷新后重置页码
+//                mRefreshLayout.finishRefresh(2000);
+                mBanner.start();
             }
         });
-        //下拉加载监听
+
+        //上拉加载监听
         mRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(RefreshLayout refreshLayout) {
-                mRefreshLayout.finishLoadMore(2000);
+                mPageId++;
+                mPresenter.loadHomeArticleData(mPageId, false, false);
+//                mRefreshLayout.finishLoadMore(2000);
             }
         });
     }
 
     @Override
-    public void setArticleRecyclerview(List<HomeArticleItem> list) {
-        Log.i("sdasds",list.toString()+"----ssdads");
+    public void setArticleRecyclerview(HomeRecyclerViewAdapter adapter) {
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL));
+        //设置banner的布局到ArticleRecyclerview的adapter中
+        adapter.setmHeaderView(mBanner);
         mLinearLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL));
-        mRecyclerView.setAdapter(new HomeRecyclerViewAdapter(mContext, list));
+        mRecyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void finishRefresh(int delayed) {
+        mRefreshLayout.finishRefresh(delayed);
+    }
+
+    @Override
+    public void finishLoadMore(int delayed) {
+        mRefreshLayout.finishLoadMore(delayed);
     }
 
     @Override
     public void setBanner(List<String> list) {
+        mHeaderView = LayoutInflater.from(mContext).inflate(R.layout.banner_view_layout, null);
+        mBanner = mHeaderView.findViewById(R.id.home_banner);
+        mBanner.setLayoutParams(new RecyclerView.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, getActivity().getWindowManager().getDefaultDisplay().getHeight() / 3));
         mBanner.setPages(list, new MZHolderCreator() {
             @Override
             public MZViewHolder createViewHolder() {
+                mBanner.start();
                 return new BannerViewHolder();
             }
         });
-    }
-
-    public static class BannerViewHolder implements MZViewHolder<String> {
-        private ImageView mImageView;
-
-        @Override
-        public View createView(Context context) {
-            // 返回页面布局
-            View view = LayoutInflater.from(context).inflate(R.layout.banner_item, null);
-            mImageView = (ImageView) view.findViewById(R.id.banner_image);
-            return view;
-        }
-
-        @Override
-        public void onBind(Context context, int position, String data) {
-            // 数据绑定
-            PictureLoader.getInstance()
-                    .load(data)
-                    .cacheInMemory(false)
-                    .cacheOnDisk(false)
-                    .into(mImageView);
-        }
     }
 }

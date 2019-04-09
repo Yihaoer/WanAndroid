@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yihaoer.wyh.wanandroid.R;
-import com.yihaoer.wyh.wanandroid.mvp.ui.adapter.entity.HomeArticleItem;
+import com.yihaoer.wyh.wanandroid.mvp.ui.entity.HomeArticleItem;
 
 import java.util.List;
 
@@ -20,37 +20,90 @@ import java.util.List;
  */
 public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerViewAdapter.HomeArticleHolder> {
 
-    private List<HomeArticleItem> list;
-    private Context context;
+    private static final int TYPE_HEADER = 0x11; //头部
+    private static final int TYPE_NOMAL = 0x12; //正常数据
+    private List<HomeArticleItem> mList;
+    private View mHeaderView;
+    private Context mContext;
 
     public HomeRecyclerViewAdapter(Context context, List<HomeArticleItem> list) {
-        this.list = list;
-        this.context = context;
+        this.mList = list;
+        this.mContext = context;
     }
 
     @NonNull
     @Override
-    public HomeArticleHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new HomeArticleHolder(LayoutInflater.from(context)
+    public HomeArticleHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+        if (mHeaderView != null && viewType == TYPE_HEADER) {
+            return new HomeArticleHolder(mHeaderView);
+        }
+        return new HomeArticleHolder(LayoutInflater.from(mContext)
                 .inflate(R.layout.home_article_item_layout, viewGroup, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull HomeArticleHolder homeArticleHolder, int i) {
-        if (list.get(i).isFresh()){
+        if (getItemViewType(i) == TYPE_HEADER) {
+            return;
+        }
+
+        int pos = getRealPosition(homeArticleHolder);
+        HomeArticleItem articleItem = mList.get(pos);
+
+        if (articleItem.isFresh()) {
             homeArticleHolder.articleFreshIv.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             homeArticleHolder.articleFreshIv.setVisibility(View.GONE);
         }
-        homeArticleHolder.articleAuthorTv.setText(list.get(i).getAuthor());
-        homeArticleHolder.articleTypeTv.setText(list.get(i).getType());
-        homeArticleHolder.articleTitleTv.setText(list.get(i).getTitle());
-        homeArticleHolder.articleDateTv.setText(list.get(i).getDate());
+        homeArticleHolder.articleAuthorTv.setText(articleItem.getAuthor());
+        homeArticleHolder.articleTypeTv.setText(articleItem.getType());
+        homeArticleHolder.articleTitleTv.setText(articleItem.getTitle());
+        homeArticleHolder.articleDateTv.setText(articleItem.getDate());
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        if (getmHeaderView() != null) {
+            return mList.size() + 1;
+        }
+        return mList.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (position == 0 && mHeaderView != null) {
+            return TYPE_HEADER;
+        }
+        return TYPE_NOMAL;
+    }
+
+    /**
+     * 添加头部布局后的位置
+     * headerView 不为空则 position - 1
+     */
+    public int getRealPosition(HomeArticleHolder homeArticleHolder) {
+        int position = homeArticleHolder.getLayoutPosition();
+        return mHeaderView == null ? position : position - 1;
+    }
+
+    public View getmHeaderView() {
+        return mHeaderView;
+    }
+
+    public void setmHeaderView(View mHeaderView) {
+        this.mHeaderView = mHeaderView;
+        notifyItemInserted(0); //插入下标0位置
+    }
+
+    public void addData(List<HomeArticleItem> list) {
+        mList.addAll(list);
+        notifyDataSetChanged();
+    }
+
+    public void setData(List<HomeArticleItem> list){
+        mList.clear();
+        mList.addAll(list);
+        notifyDataSetChanged();
     }
 
     /**

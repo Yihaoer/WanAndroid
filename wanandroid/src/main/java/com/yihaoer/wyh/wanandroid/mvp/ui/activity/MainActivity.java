@@ -25,6 +25,7 @@ import com.yihaoer.wyh.wanandroid.di.component.DaggerMainComponent;
 import com.yihaoer.wyh.wanandroid.di.module.MainModule;
 import com.yihaoer.wyh.wanandroid.mvp.contract.MainContract;
 import com.yihaoer.wyh.wanandroid.mvp.presenter.MainPresenter;
+import com.yihaoer.wyh.wanandroid.mvp.ui.fragment.ProjectFragment;
 import com.yihaoer.wyh.wanandroid.mvp.ui.fragment.main.GuideFragment;
 import com.yihaoer.wyh.wanandroid.mvp.ui.fragment.main.HomeFragment;
 
@@ -199,16 +200,16 @@ public class MainActivity extends SupportActivity<MainPresenter> implements Main
                         }
                         break;
                     case 1:
-                        GuideFragment guideFragment = findFragment(GuideFragment.class);
-                        if (guideFragment == null) {
+                        ProjectFragment projectFragment = findFragment(ProjectFragment.class);
+                        if (projectFragment == null) {
                             popTo(HomeFragment.class, false, new TimerTask() {
                                 @Override
                                 public void run() {
-                                    start(GuideFragment.newInstance(), SupportFragment.SINGLETASK);
+                                    start(ProjectFragment.newInstance(), SupportFragment.SINGLETASK);
                                 }
                             });
                         } else {
-                            start(guideFragment, SupportFragment.SINGLETASK);
+                            start(projectFragment, SupportFragment.SINGLETASK);
                         }
                         break;
                     case 2:
