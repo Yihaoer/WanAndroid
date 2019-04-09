@@ -33,9 +33,8 @@ public class ProjectFragmentPageAdapter extends FragmentPagerAdapter {
 //        if (fragment != null){
 //            return fragment;
 //        }else {
-//            Bundle bundle = new Bundle();
-//            bundle.putInt("cid",projectTypeList.get(i).getId());
 //            fragment = ProjectArticleFragment.newInstance();
+//            fragment.setCid(projectTypeList.get(i).getId());
 //            fragmentList.add(fragment);
 //        }
         return fragmentList.get(i);
@@ -53,10 +52,10 @@ public class ProjectFragmentPageAdapter extends FragmentPagerAdapter {
     }
 
     public void setData(List<ProjectArticleFragment> fragmentList, List<ProjectTypeItem> projectTypeList){
-//        this.fragmentList = fragmentList;
-//        this.projectTypeList = projectTypeList;
-        this.fragmentList.addAll(fragmentList);
-        this.projectTypeList.addAll(projectTypeList);
+        this.fragmentList = fragmentList;
+        this.projectTypeList = projectTypeList;
+//        this.fragmentList.addAll(fragmentList);
+//        this.projectTypeList.addAll(projectTypeList);
         notifyDataSetChanged();
     }
 }

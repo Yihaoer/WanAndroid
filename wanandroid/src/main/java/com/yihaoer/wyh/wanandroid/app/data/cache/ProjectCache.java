@@ -1,5 +1,6 @@
 package com.yihaoer.wyh.wanandroid.app.data.cache;
 
+import com.yihaoer.wyh.wanandroid.app.data.entity.project.ProjectArticleBean;
 import com.yihaoer.wyh.wanandroid.app.data.entity.project.ProjectTypeBean;
 
 
@@ -17,4 +18,7 @@ import io.rx_cache2.Reply;
 public interface ProjectCache {
     @LifeCache(duration = 10, timeUnit = TimeUnit.MINUTES)
     Observable<Reply<ProjectTypeBean>> getProjectTypes(Observable<ProjectTypeBean> projectTypeBeanObservable, EvictProvider evictProvider);
+
+    @LifeCache(duration = 10,timeUnit = TimeUnit.MINUTES)
+    Observable<Reply<ProjectArticleBean>> getProjectArticle(Observable<ProjectArticleBean> projectArticleBeanObservable, EvictProvider evictProvider);
 }

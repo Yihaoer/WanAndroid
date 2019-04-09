@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.header.imageloaderlib.agent.PictureLoader;
 import com.jess.arms.http.imageloader.ImageLoader;
 import com.yihaoer.wyh.wanandroid.R;
+import com.yihaoer.wyh.wanandroid.mvp.ui.entity.HomeArticleItem;
 import com.yihaoer.wyh.wanandroid.mvp.ui.entity.ProjectArticleItem;
 
 import java.util.List;
@@ -29,6 +30,17 @@ public class ProjectRecycleViewAdapter extends RecyclerView.Adapter<ProjectRecyc
     public ProjectRecycleViewAdapter(Context context,List<ProjectArticleItem> projectArticleItemList){
         this.mContext = context;
         this.projectArticleItemList = projectArticleItemList;
+    }
+
+    public void addData(List<ProjectArticleItem> list) {
+        projectArticleItemList.addAll(list);
+        notifyDataSetChanged();
+    }
+
+    public void setData(List<ProjectArticleItem> list){
+        projectArticleItemList.clear();
+        projectArticleItemList.addAll(list);
+        notifyDataSetChanged();
     }
 
     @NonNull

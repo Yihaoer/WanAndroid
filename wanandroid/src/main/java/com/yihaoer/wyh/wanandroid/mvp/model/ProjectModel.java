@@ -55,7 +55,7 @@ public class ProjectModel extends BaseModel implements ProjectContract.Model {
         List<ProjectTypeItem> list = new ArrayList<>();
         for (ProjectTypeBean.DataBean dataBean : dataBeanList) {
             ProjectTypeItem projectTypeItem = new ProjectTypeItem();
-            projectTypeItem.setId(dataBean.getId());
+            projectTypeItem.setId(dataBean.getId()+"");
             projectTypeItem.setName(dataBean.getName());
             list.add(projectTypeItem);
         }
