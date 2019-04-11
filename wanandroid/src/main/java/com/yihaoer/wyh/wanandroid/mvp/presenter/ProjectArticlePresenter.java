@@ -56,7 +56,8 @@ public class ProjectArticlePresenter extends BasePresenter<ProjectArticleContrac
 
                     @Override
                     public void onNext(ProjectArticleBean projectArticleBean) {
-                        setArticleRecyclerViewAdapter(mModel.parseProjectArticleData(projectArticleBean.getData().getDatas()),refresh);
+//                        setArticleRecyclerViewAdapter(mModel.parseProjectArticleData(projectArticleBean.getData().getDatas()),refresh);
+                        mRootView.setArticleRecyclerview(mModel.parseProjectArticleData(projectArticleBean.getData().getDatas()));
                     }
 
                     @Override

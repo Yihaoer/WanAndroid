@@ -143,6 +143,23 @@ public class ProjectFragment extends SupportFragment<ProjectPresenter> implement
 
             }
         });
+
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+//                mFragmentList.get(i).lazyLoad();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -161,9 +178,8 @@ public class ProjectFragment extends SupportFragment<ProjectPresenter> implement
         for (int i = 0; i < mProjectTypeList.size(); i++) {
             //            Bundle bundle = new Bundle();
             //            bundle.putInt("cid",mProjectTypeList.get(i).getId());
-            mProjectArticleFragment = ProjectArticleFragment.newInstance();
+            mProjectArticleFragment = new ProjectArticleFragment();
             mProjectArticleFragment.setCid(mProjectTypeList.get(i).getId());
-            Log.i("asdsads","id = " + mProjectTypeList.get(i).getId());
             mFragmentList.add(mProjectArticleFragment);
         }
         mFragmentPagerAdapter.setData(mFragmentList, mProjectTypeList);

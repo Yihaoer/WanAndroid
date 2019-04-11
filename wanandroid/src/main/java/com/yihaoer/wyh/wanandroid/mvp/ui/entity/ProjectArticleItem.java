@@ -60,4 +60,16 @@ public class ProjectArticleItem {
     public void setLink(String link) {
         this.link = link;
     }
+
+    @Override
+    public String toString() {
+        return "ProjectArticleItem{" +
+                "envelopePic='" + envelopePic + '\'' +
+                ", title='" + title + '\'' +
+                ", desc='" + desc + '\'' +
+                ", date='" + date + '\'' +
+                ", author='" + author + '\'' +
+                ", link='" + link + '\'' +
+                '}';
+    }
 }
