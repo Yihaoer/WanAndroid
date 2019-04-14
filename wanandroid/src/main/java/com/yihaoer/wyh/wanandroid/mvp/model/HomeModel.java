@@ -1,5 +1,7 @@
 package com.yihaoer.wyh.wanandroid.mvp.model;
 
+import android.util.Log;
+
 import com.jess.arms.integration.IRepositoryManager;
 import com.jess.arms.mvp.BaseModel;
 import com.yihaoer.wyh.wanandroid.app.data.Api;
@@ -18,6 +20,7 @@ import javax.inject.Inject;
 
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;
+import io.rx_cache2.DynamicKey;
 import io.rx_cache2.EvictProvider;
 import io.rx_cache2.Reply;
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager;
@@ -40,7 +43,7 @@ public class HomeModel extends BaseModel implements HomeContract.Model {
      * @return
      */
     @Override
-    public Observable<BannerBean> getBannerDataList(boolean refresh) {
+    public Observable<BannerBean> getBannerDataList(boolean clearCache) {
         //                return mRepositoryManager
         //                        .obtainRetrofitService(HomeService.class)
         //                        .getBannerDataList();
@@ -48,7 +51,7 @@ public class HomeModel extends BaseModel implements HomeContract.Model {
                 .obtainCacheService(HomeCache.class)
                 .getBannerDataList(mRepositoryManager
                         .obtainRetrofitService(HomeService.class)
-                        .getBannerDataList(), new EvictProvider(refresh))
+                        .getBannerDataList(), new EvictProvider(clearCache))
                 .map(new Function<Reply<BannerBean>, BannerBean>() {
                     @Override
                     public BannerBean apply(Reply<BannerBean> bannerBeanReply) throws Exception {
@@ -88,18 +91,18 @@ public class HomeModel extends BaseModel implements HomeContract.Model {
      */
     @Override
     public Observable<HomeArticleBean> getHomeArticleDataList(int pageId, boolean clearCache) {
-        return mRepositoryManager.obtainRetrofitService(HomeService.class)
-                .getHomeArticleDataList(pageId);
-        //        return mRepositoryManager.obtainCacheService(HomeCache.class)
-        //                .getHomeArticleDataList(mRepositoryManager.obtainRetrofitService(HomeService.class)
-        //                        .getHomeArticleDataList(pageId), new DynamicKey(pageId), new EvictProvider(clearCache))
-        //                .map(new Function<Reply<HomeArticleBean>, HomeArticleBean>() {
-        //                    @Override
-        //                    public HomeArticleBean apply(Reply<HomeArticleBean> homeArticleBeanReply) throws Exception {
-        //                        Log.i("adsad",homeArticleBeanReply.getData().getData().toString());
-        //                        return homeArticleBeanReply.getData();
-        //                    }
-        //                });
+//        return mRepositoryManager.obtainRetrofitService(HomeService.class)
+//                .getHomeArticleDataList(pageId);
+                return mRepositoryManager.obtainCacheService(HomeCache.class)
+                        .getHomeArticleDataList(mRepositoryManager.obtainRetrofitService(HomeService.class)
+                                .getHomeArticleDataList(pageId), new DynamicKey(pageId), new EvictProvider(clearCache))
+                        .map(new Function<Reply<HomeArticleBean>, HomeArticleBean>() {
+                            @Override
+                            public HomeArticleBean apply(Reply<HomeArticleBean> homeArticleBeanReply) throws Exception {
+                                Log.i("adsad",homeArticleBeanReply.getData().getData().toString());
+                                return homeArticleBeanReply.getData();
+                            }
+                        });
     }
 
     /**

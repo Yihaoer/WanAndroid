@@ -1,10 +1,10 @@
 package com.yihaoer.wyh.wanandroid.mvp.model;
 
+
 import com.jess.arms.integration.IRepositoryManager;
 import com.jess.arms.mvp.BaseModel;
 import com.yihaoer.wyh.wanandroid.app.data.cache.ProjectCache;
 import com.yihaoer.wyh.wanandroid.app.data.entity.project.ProjectArticleBean;
-import com.yihaoer.wyh.wanandroid.app.data.entity.project.ProjectTypeBean;
 import com.yihaoer.wyh.wanandroid.app.data.service.ProjectService;
 import com.yihaoer.wyh.wanandroid.mvp.contract.ProjectArticleContract;
 import com.yihaoer.wyh.wanandroid.mvp.ui.entity.ProjectArticleItem;
@@ -35,7 +35,7 @@ public class ProjectArticleModel extends BaseModel implements ProjectArticleCont
     public Observable<ProjectArticleBean> getProjectArticleDataList(int pageId, String cid, boolean clearCache) {
         return mRepositoryManager.obtainCacheService(ProjectCache.class)
                 .getProjectArticle(mRepositoryManager.obtainRetrofitService(ProjectService.class)
-                        .getProjectArticleDataList(pageId, cid), new EvictProvider(false))
+                        .getProjectArticleDataList(pageId, cid), new EvictProvider(clearCache))
                 .map(new Function<Reply<ProjectArticleBean>, ProjectArticleBean>() {
                     @Override
                     public ProjectArticleBean apply(Reply<ProjectArticleBean> projectArticleBeanReply) throws Exception {
@@ -54,6 +54,7 @@ public class ProjectArticleModel extends BaseModel implements ProjectArticleCont
             projectArticleItem.setDate(dataBean.getNiceDate());
             projectArticleItem.setAuthor(dataBean.getAuthor());
             projectArticleItem.setEnvelopePic(dataBean.getEnvelopePic());
+            projectArticleItem.setLink(dataBean.getLink());
             projectArticleItemList.add(projectArticleItem);
         }
         return projectArticleItemList;

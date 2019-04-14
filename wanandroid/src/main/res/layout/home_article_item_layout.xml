@@ -7,9 +7,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="15dp"
-        android:layout_marginRight="15dp">
+        android:layout_marginRight="10dp">
 
         <ImageView
             android:id="@+id/new_icon_iv"
@@ -28,7 +28,7 @@
             android:text="吴奕豪"
             android:layout_centerVertical="true"
             android:textColor="@color/grey_666666"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/article_type_tv"
@@ -38,7 +38,7 @@
             android:layout_centerVertical="true"
             android:text="技术博客"
             android:textColor="@color/grey_666666"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
     </RelativeLayout>
 
     <TextView
@@ -46,7 +46,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:layout_marginRight="15dp"
         android:maxLines="2"
         android:text="技术博客"
@@ -57,7 +57,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginBottom="15dp">
 
@@ -68,12 +68,12 @@
             android:layout_centerVertical="true"
             android:text="刚刚"
             android:textColor="@color/grey_666666"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <ImageView
             android:id="@+id/collection_iv"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_alignParentRight="true"
             android:src="@mipmap/ic_collection" />
     </RelativeLayout>

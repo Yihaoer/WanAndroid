@@ -29,14 +29,6 @@ public class ProjectFragmentPageAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int i) {
-//        ProjectArticleFragment fragment = fragmentList.get(i);
-//        if (fragment != null){
-//            return fragment;
-//        }else {
-//            fragment = ProjectArticleFragment.newInstance();
-//            fragment.setCid(projectTypeList.get(i).getId());
-//            fragmentList.add(fragment);
-//        }
         return fragmentList.get(i);
     }
 

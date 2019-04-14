@@ -1,6 +1,7 @@
 package com.yihaoer.wyh.wanandroid.mvp.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yihaoer.wyh.wanandroid.R;
+import com.yihaoer.wyh.wanandroid.mvp.ui.activity.WebviewActivity;
 import com.yihaoer.wyh.wanandroid.mvp.ui.entity.HomeArticleItem;
 
 import java.util.List;
@@ -59,6 +61,18 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         homeArticleHolder.articleTypeTv.setText(articleItem.getType());
         homeArticleHolder.articleTitleTv.setText(articleItem.getTitle());
         homeArticleHolder.articleDateTv.setText(articleItem.getDate());
+
+        //设置每个item的点击事件，点击后跳转到对应url的webview
+        homeArticleHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext.getApplicationContext(), WebviewActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //通过context跳转一定要加这个，否则报错
+                intent.putExtra("url", articleItem.getLink());
+                mContext.getApplicationContext().startActivity(intent);
+            }
+        });
+
     }
 
     @Override
@@ -100,7 +114,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         notifyDataSetChanged();
     }
 
-    public void setData(List<HomeArticleItem> list){
+    public void setData(List<HomeArticleItem> list) {
         mList.clear();
         mList.addAll(list);
         notifyDataSetChanged();

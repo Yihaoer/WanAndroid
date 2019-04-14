@@ -25,6 +25,7 @@ import com.yihaoer.wyh.wanandroid.di.component.DaggerMainComponent;
 import com.yihaoer.wyh.wanandroid.di.module.MainModule;
 import com.yihaoer.wyh.wanandroid.mvp.contract.MainContract;
 import com.yihaoer.wyh.wanandroid.mvp.presenter.MainPresenter;
+import com.yihaoer.wyh.wanandroid.mvp.ui.fragment.ProjectArticleFragment;
 import com.yihaoer.wyh.wanandroid.mvp.ui.fragment.ProjectFragment;
 import com.yihaoer.wyh.wanandroid.mvp.ui.fragment.main.GuideFragment;
 import com.yihaoer.wyh.wanandroid.mvp.ui.fragment.main.HomeFragment;
@@ -32,6 +33,7 @@ import com.yihaoer.wyh.wanandroid.mvp.ui.fragment.main.HomeFragment;
 import java.util.TimerTask;
 
 import butterknife.BindView;
+import me.yokeyword.fragmentation.ISupportFragment;
 import me.yokeyword.fragmentation.SupportFragment;
 
 /**
@@ -140,7 +142,7 @@ public class MainActivity extends SupportActivity<MainPresenter> implements Main
     private void initFragmentation() {
         HomeFragment homeFragment = findFragment(HomeFragment.class);
         if (homeFragment == null) {
-            loadRootFragment(R.id.content_fl, HomeFragment.newInstance());
+            loadRootFragment(R.id.content_fl, HomeFragment.newInstance(), true, false);
         }
     }
 
@@ -192,29 +194,46 @@ public class MainActivity extends SupportActivity<MainPresenter> implements Main
             public void onTabSelected(int position) {
                 switch (position) {
                     case 0:
+                        mToolbarTitle.setText(R.string.home_page);
                         HomeFragment homeFragment = findFragment(HomeFragment.class);
                         if (homeFragment == null) {
                             start(HomeFragment.newInstance(), SupportFragment.SINGLETASK);
                         } else {
-                            popTo(HomeFragment.class, false);
+                            pop();
+                            popTo(HomeFragment.class, true, new TimerTask() {
+                                @Override
+                                public void run() {
+                                    start(homeFragment, ISupportFragment.SINGLETASK);
+                                }
+                            });
                         }
                         break;
                     case 1:
+                        mToolbarTitle.setText(R.string.project_page);
+                        ProjectArticleFragment fragment = findFragment(ProjectArticleFragment.class);
+                        if (fragment == null){
+                            Log.i("asdsad", "fragment is alive = false");
+                        }else{
+                            Log.i("asdsad", "fragment is alive = true");
+                        }
                         ProjectFragment projectFragment = findFragment(ProjectFragment.class);
                         if (projectFragment == null) {
                             popTo(HomeFragment.class, false, new TimerTask() {
                                 @Override
                                 public void run() {
-                                    start(ProjectFragment.newInstance(), SupportFragment.SINGLETASK);
+                                    start(ProjectFragment.newInstance());
                                 }
                             });
                         } else {
-                            start(projectFragment, SupportFragment.SINGLETASK);
+                            pop();
+                            start(projectFragment);
                         }
                         break;
                     case 2:
+                        mToolbarTitle.setText(R.string.guide_page);
                         break;
                     case 3:
+                        mToolbarTitle.setText(R.string.hierarchy_page);
                         break;
                 }
             }

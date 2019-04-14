@@ -18,13 +18,16 @@ import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.wang.avi.AVLoadingIndicatorView;
 import com.yihaoer.wyh.wanandroid.R;
 import com.yihaoer.wyh.wanandroid.app.base.SupportFragment;
 import com.yihaoer.wyh.wanandroid.di.component.DaggerHomeComponent;
 import com.yihaoer.wyh.wanandroid.di.module.HomeModule;
 import com.yihaoer.wyh.wanandroid.mvp.contract.HomeContract;
 import com.yihaoer.wyh.wanandroid.mvp.presenter.HomePresenter;
+import com.yihaoer.wyh.wanandroid.mvp.ui.activity.WebviewActivity;
 import com.yihaoer.wyh.wanandroid.mvp.ui.adapter.HomeRecyclerViewAdapter;
+import com.yihaoer.wyh.wanandroid.mvp.ui.entity.BannerItem;
 import com.yihaoer.wyh.wanandroid.mvp.ui.holder.BannerViewHolder;
 import com.zhouwei.mzbanner.MZBannerView;
 import com.zhouwei.mzbanner.holder.MZHolderCreator;
@@ -42,14 +45,14 @@ public class HomeFragment extends SupportFragment<HomePresenter> implements Home
     private View mHeaderView;
     private int mPageId = 0;
 
-    //    @BindView(R.id.home_banner)
-    //    MZBannerView mBanner;
-
     @BindView(R.id.home_refresh_layout)
     RefreshLayout mRefreshLayout;
 
     @BindView(R.id.home_recyclerview)
     RecyclerView mRecyclerView;
+
+    @BindView(R.id.loading_view)
+    AVLoadingIndicatorView mAvLoadingIndicatorView;
 
     private LinearLayoutManager mLinearLayoutManager;
 
@@ -87,12 +90,12 @@ public class HomeFragment extends SupportFragment<HomePresenter> implements Home
 
     @Override
     public void showLoading() {
-
+        mAvLoadingIndicatorView.show();
     }
 
     @Override
     public void hideLoading() {
-
+        mAvLoadingIndicatorView.hide();
     }
 
     @Override
@@ -177,7 +180,7 @@ public class HomeFragment extends SupportFragment<HomePresenter> implements Home
     }
 
     @Override
-    public void setBanner(List<String> list) {
+    public void setBanner(List<BannerItem> list) {
         mHeaderView = LayoutInflater.from(mContext).inflate(R.layout.banner_view_layout, null);
         mBanner = mHeaderView.findViewById(R.id.home_banner);
         mBanner.setLayoutParams(new RecyclerView.LayoutParams(

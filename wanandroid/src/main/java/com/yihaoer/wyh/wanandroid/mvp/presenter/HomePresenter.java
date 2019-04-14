@@ -41,10 +41,10 @@ public class HomePresenter extends BasePresenter<HomeContract.Model, HomeContrac
     /**
      * 加载首页banner的数据
      *
-     * @param refresh 是否刷新
+     * @param clearCache 是否刷新
      */
-    public void loadBannerData(boolean refresh) {
-        mModel.getBannerDataList(refresh)
+    public void loadBannerData(boolean clearCache) {
+        mModel.getBannerDataList(clearCache)
                 .retryWhen(new RetryWithDelay(3, 2))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -59,12 +59,12 @@ public class HomePresenter extends BasePresenter<HomeContract.Model, HomeContrac
 
                     @Override
                     public void onNext(BannerBean bannerBean) {
-                        List<BannerItem> list = mModel.parseBannerData(bannerBean.getData());
-                        List<String> imgList = new ArrayList<>();
-                        for (int i = 0; i < list.size(); i++) {
-                            imgList.add(list.get(i).getImagePath());
-                        }
-                        mRootView.setBanner(imgList);
+//                        List<BannerItem> list = mModel.parseBannerData(bannerBean.getData());
+//                        List<String> imgList = new ArrayList<>();
+//                        for (int i = 0; i < list.size(); i++) {
+//                            imgList.add(list.get(i).getImagePath());
+//                        }
+                        mRootView.setBanner(mModel.parseBannerData(bannerBean.getData()));
                     }
 
                     @Override

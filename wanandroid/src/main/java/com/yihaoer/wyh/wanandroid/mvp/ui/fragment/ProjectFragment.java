@@ -1,20 +1,18 @@
 package com.yihaoer.wyh.wanandroid.mvp.ui.fragment;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.jess.arms.di.component.AppComponent;
+import com.wang.avi.AVLoadingIndicatorView;
 import com.yihaoer.wyh.wanandroid.R;
 import com.yihaoer.wyh.wanandroid.app.base.SupportFragment;
 import com.yihaoer.wyh.wanandroid.di.component.DaggerProjectComponent;
@@ -43,6 +41,9 @@ public class ProjectFragment extends SupportFragment<ProjectPresenter> implement
 
     @BindView(R.id.project_viewpager)
     ViewPager mViewPager;
+
+    @BindView(R.id.loading_view)
+    AVLoadingIndicatorView mAvLoadingIndicatorView;
 
     public static ProjectFragment newInstance() {
         return new ProjectFragment();
@@ -75,7 +76,6 @@ public class ProjectFragment extends SupportFragment<ProjectPresenter> implement
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void showProjectTypeData(List<ProjectTypeItem> projectTypeBeanList) {
         this.mProjectTypeList = projectTypeBeanList;
@@ -85,12 +85,12 @@ public class ProjectFragment extends SupportFragment<ProjectPresenter> implement
 
     @Override
     public void showLoading() {
-
+        mAvLoadingIndicatorView.show();
     }
 
     @Override
     public void hideLoading() {
-
+        mAvLoadingIndicatorView.hide();
     }
 
     @Override
@@ -113,16 +113,9 @@ public class ProjectFragment extends SupportFragment<ProjectPresenter> implement
      */
     private void initViewPagerAndTabLayout() {
         mFragmentManager = getActivity().getSupportFragmentManager();
-        //        for (int i = 0; i <mProjectTypeList.size() ; i++) {
-        //            mFragmentList.add(ProjectArticleFragment.newInstance());
-        //            mTabLayout.addTab(mTabLayout.newTab());
-        //        }
         mFragmentPagerAdapter = new ProjectFragmentPageAdapter(mFragmentManager, mFragmentList, mProjectTypeList);
         mViewPager.setAdapter(mFragmentPagerAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
-        //        for (int i = 0; i <mProjectTypeList.size() ; i++) {
-        //            mTabLayout.getTabAt(i).setText(mFragmentPagerAdapter.getPageTitle(i));
-        //        }
         for (int i = 0; i < mProjectTypeList.size(); i++) {
             mTabLayout.addTab(mTabLayout.newTab().setText(mFragmentPagerAdapter.getPageTitle(i)));
         }
@@ -130,7 +123,6 @@ public class ProjectFragment extends SupportFragment<ProjectPresenter> implement
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 mViewPager.setCurrentItem(tab.getPosition());
-                //                addProjectArticleFragment(tab.getPosition());
             }
 
             @Override
@@ -143,53 +135,18 @@ public class ProjectFragment extends SupportFragment<ProjectPresenter> implement
 
             }
         });
-
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int i, float v, int i1) {
-
-            }
-
-            @Override
-            public void onPageSelected(int i) {
-//                mFragmentList.get(i).lazyLoad();
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int i) {
-
-            }
-        });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    /**
+     * 根据项目分类数量来添加fragment
+     */
     private void addProjectArticleFragment() {
-        //        ProjectArticleFragment fragment = mFragmentList.get(position);
-        //        if (fragment != null){
-        //            return;
-        //        }else {
-        //            Bundle bundle = new Bundle();
-        //            bundle.putInt("cid",mProjectTypeList.get(position).getId());
-        //            fragment = ProjectArticleFragment.newInstance();
-        //            mFragmentList.add(fragment);
-        //        }
-        //        mFragmentPagerAdapter.setData(mFragmentList,mProjectTypeList);
         mFragmentList.clear();
         for (int i = 0; i < mProjectTypeList.size(); i++) {
-            //            Bundle bundle = new Bundle();
-            //            bundle.putInt("cid",mProjectTypeList.get(i).getId());
             mProjectArticleFragment = new ProjectArticleFragment();
             mProjectArticleFragment.setCid(mProjectTypeList.get(i).getId());
             mFragmentList.add(mProjectArticleFragment);
         }
         mFragmentPagerAdapter.setData(mFragmentList, mProjectTypeList);
-
-//        mProjectTypeList.stream().forEach(a->{
-//            mProjectArticleFragment = ProjectArticleFragment.newInstance();
-//            mProjectArticleFragment.setCid(a.getId());
-//            mFragmentList.add(mProjectArticleFragment);
-//        });
-//        mFragmentPagerAdapter.setData(mFragmentList, mProjectTypeList);
-
     }
 }

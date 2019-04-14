@@ -1,8 +1,10 @@
 package com.yihaoer.wyh.wanandroid.mvp.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,13 +12,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.header.imageloaderlib.agent.PictureLoader;
-import com.jess.arms.http.imageloader.ImageLoader;
 import com.yihaoer.wyh.wanandroid.R;
-import com.yihaoer.wyh.wanandroid.mvp.ui.entity.HomeArticleItem;
+import com.yihaoer.wyh.wanandroid.mvp.ui.activity.WebviewActivity;
 import com.yihaoer.wyh.wanandroid.mvp.ui.entity.ProjectArticleItem;
 
 import java.util.List;
-import java.util.zip.Inflater;
 
 /**
  * Author: Yihaoer
@@ -26,8 +26,9 @@ public class ProjectRecycleViewAdapter extends RecyclerView.Adapter<ProjectRecyc
 
     private List<ProjectArticleItem> projectArticleItemList;
     private Context mContext;
+    private Intent mIntent;
 
-    public ProjectRecycleViewAdapter(Context context,List<ProjectArticleItem> projectArticleItemList){
+    public ProjectRecycleViewAdapter(Context context, List<ProjectArticleItem> projectArticleItemList) {
         this.mContext = context;
         this.projectArticleItemList = projectArticleItemList;
     }
@@ -37,7 +38,7 @@ public class ProjectRecycleViewAdapter extends RecyclerView.Adapter<ProjectRecyc
         notifyDataSetChanged();
     }
 
-    public void setData(List<ProjectArticleItem> list){
+    public void setData(List<ProjectArticleItem> list) {
         projectArticleItemList.clear();
         projectArticleItemList.addAll(list);
         notifyDataSetChanged();
@@ -47,7 +48,7 @@ public class ProjectRecycleViewAdapter extends RecyclerView.Adapter<ProjectRecyc
     @Override
     public ProjectArticleHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         return new ProjectArticleHolder(LayoutInflater.from(mContext)
-                .inflate(R.layout.project_article_item_layout,viewGroup,false));
+                .inflate(R.layout.project_article_item_layout, viewGroup, false));
     }
 
     @Override
@@ -62,6 +63,17 @@ public class ProjectRecycleViewAdapter extends RecyclerView.Adapter<ProjectRecyc
                 .cacheInMemory(false)
                 .cacheOnDisk(false)
                 .into(projectArticleHolder.articleEnvelopePicIv);
+
+        //设置每个item的点击事件，点击后跳转到对应url的webview
+        projectArticleHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mIntent = new Intent(mContext, WebviewActivity.class);
+                mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //通过context跳转一定要加这个，否则报错
+                mIntent.putExtra("url", projectArticleItem.getLink());
+                mContext.getApplicationContext().startActivity(mIntent);
+            }
+        });
     }
 
     @Override

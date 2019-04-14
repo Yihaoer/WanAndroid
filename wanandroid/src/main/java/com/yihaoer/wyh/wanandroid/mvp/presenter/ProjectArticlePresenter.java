@@ -2,13 +2,13 @@ package com.yihaoer.wyh.wanandroid.mvp.presenter;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
 import com.jess.arms.integration.AppManager;
 import com.jess.arms.mvp.BasePresenter;
 import com.jess.arms.utils.RxLifecycleUtils;
 import com.yihaoer.wyh.wanandroid.app.data.entity.project.ProjectArticleBean;
 import com.yihaoer.wyh.wanandroid.mvp.contract.ProjectArticleContract;
-import com.yihaoer.wyh.wanandroid.mvp.contract.ProjectContract;
 import com.yihaoer.wyh.wanandroid.mvp.ui.adapter.ProjectRecycleViewAdapter;
 import com.yihaoer.wyh.wanandroid.mvp.ui.entity.ProjectArticleItem;
 
@@ -56,8 +56,13 @@ public class ProjectArticlePresenter extends BasePresenter<ProjectArticleContrac
 
                     @Override
                     public void onNext(ProjectArticleBean projectArticleBean) {
-//                        setArticleRecyclerViewAdapter(mModel.parseProjectArticleData(projectArticleBean.getData().getDatas()),refresh);
-                        mRootView.setArticleRecyclerview(mModel.parseProjectArticleData(projectArticleBean.getData().getDatas()));
+                        setArticleRecyclerViewAdapter(mModel.parseProjectArticleData(projectArticleBean.getData().getDatas()),refresh);
+//                        mRootView.setArticleRecyclerview(mModel.parseProjectArticleData(projectArticleBean.getData().getDatas()));
+                        if (refresh){
+                            mRootView.finishRefresh(0);
+                        }else {
+                            mRootView.finishLoadMore(0);
+                        }
                     }
 
                     @Override
