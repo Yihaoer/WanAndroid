@@ -124,8 +124,8 @@ public class ProjectArticleFragment extends SupportFragment<ProjectArticlePresen
      * 初始化fragment的显示区域和初始页面
      */
     private void initFragmentation() {
-        ProjectArticleFragment homeFragment = findFragment(ProjectArticleFragment.class);
-        if (homeFragment == null) {
+        ProjectArticleFragment projectArticleFragment = findFragment(ProjectArticleFragment.class);
+        if (projectArticleFragment == null) {
             loadRootFragment(R.id.content_fl, ProjectArticleFragment.newInstance(), true, false);
         }
     }

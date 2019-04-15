@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import me.yokeyword.fragmentation.ISupportFragment;
 
 public class ProjectFragment extends SupportFragment<ProjectPresenter> implements ProjectContract.View {
 
@@ -35,6 +37,8 @@ public class ProjectFragment extends SupportFragment<ProjectPresenter> implement
     private List<ProjectArticleFragment> mFragmentList = new ArrayList<>();
     private List<ProjectTypeItem> mProjectTypeList = new ArrayList<>();
     private ProjectArticleFragment mProjectArticleFragment;
+    private ProjectArticleFragment[] fragments;
+    private ISupportFragment[] mFragments = new ISupportFragment[2];
 
     @BindView(R.id.project_tablayout)
     TabLayout mTabLayout;
@@ -142,10 +146,21 @@ public class ProjectFragment extends SupportFragment<ProjectPresenter> implement
      */
     private void addProjectArticleFragment() {
         mFragmentList.clear();
-        for (int i = 0; i < mProjectTypeList.size(); i++) {
-            mProjectArticleFragment = new ProjectArticleFragment();
-            mProjectArticleFragment.setCid(mProjectTypeList.get(i).getId());
-            mFragmentList.add(mProjectArticleFragment);
+//        for (int i = 0; i < mProjectTypeList.size(); i++) {
+//            mProjectArticleFragment = new ProjectArticleFragment();
+//            mProjectArticleFragment.setCid(mProjectTypeList.get(i).getId());
+//            mFragmentList.add(mProjectArticleFragment);
+//        }
+//        fragments = new ProjectArticleFragment[mFragmentList.size()];
+//        for (int i =0;i<mFragmentList.size()-1;i++){
+//            fragments[i] = mFragmentList.get(i);
+//        }
+        ProjectArticleFragment projectArticleFragment = findChildFragment(ProjectArticleFragment.class);
+        if (projectArticleFragment == null){
+            mFragments[0] = new ProjectArticleFragment();
+            mFragments[1] = new ProjectArticleFragment();
+            loadMultipleRootFragment(R.id.project_viewpager,0,mFragments);
+//            loadMultipleRootFragment(R.id.project_viewpager,0, mFragmentList.toArray(new ProjectArticleFragment[mFragmentList.size()]));
         }
         mFragmentPagerAdapter.setData(mFragmentList, mProjectTypeList);
     }

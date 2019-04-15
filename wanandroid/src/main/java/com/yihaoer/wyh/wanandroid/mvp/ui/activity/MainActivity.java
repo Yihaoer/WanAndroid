@@ -199,8 +199,7 @@ public class MainActivity extends SupportActivity<MainPresenter> implements Main
                         if (homeFragment == null) {
                             start(HomeFragment.newInstance(), SupportFragment.SINGLETASK);
                         } else {
-                            pop();
-                            popTo(HomeFragment.class, true, new TimerTask() {
+                            popTo(HomeFragment.class, false, new TimerTask() {
                                 @Override
                                 public void run() {
                                     start(homeFragment, ISupportFragment.SINGLETASK);
@@ -225,7 +224,6 @@ public class MainActivity extends SupportActivity<MainPresenter> implements Main
                                 }
                             });
                         } else {
-                            pop();
                             start(projectFragment);
                         }
                         break;
