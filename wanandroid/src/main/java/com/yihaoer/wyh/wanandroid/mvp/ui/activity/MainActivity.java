@@ -199,32 +199,36 @@ public class MainActivity extends SupportActivity<MainPresenter> implements Main
                         if (homeFragment == null) {
                             start(HomeFragment.newInstance(), SupportFragment.SINGLETASK);
                         } else {
-                            popTo(HomeFragment.class, false, new TimerTask() {
-                                @Override
-                                public void run() {
-                                    start(homeFragment, ISupportFragment.SINGLETASK);
-                                }
-                            });
+//                            popTo(HomeFragment.class, false, new TimerTask() {
+//                                @Override
+//                                public void run() {
+//                                    start(homeFragment,SupportFragment.SINGLETOP);
+//                                }
+//                            });
+//                            popTo(HomeFragment.class,true);
+                            startWithPop(homeFragment);
+                                startWithPopTo(homeFragment,HomeFragment.class,false);
                         }
                         break;
                     case 1:
                         mToolbarTitle.setText(R.string.project_page);
-                        ProjectArticleFragment fragment = findFragment(ProjectArticleFragment.class);
-                        if (fragment == null){
-                            Log.i("asdsad", "fragment is alive = false");
-                        }else{
-                            Log.i("asdsad", "fragment is alive = true");
-                        }
+//                        ProjectArticleFragment fragment = findFragment(ProjectArticleFragment.class);
+//                        if (fragment == null){
+//                            Log.i("asdsad", "fragment is alive = false");
+//                        }else{
+//                            Log.i("asdsad", "fragment is alive = true");
+//                        }
                         ProjectFragment projectFragment = findFragment(ProjectFragment.class);
                         if (projectFragment == null) {
                             popTo(HomeFragment.class, false, new TimerTask() {
                                 @Override
                                 public void run() {
-                                    start(ProjectFragment.newInstance());
+                                    start(ProjectFragment.newInstance(),SupportFragment.SINGLETASK);
                                 }
                             });
                         } else {
-                            start(projectFragment);
+//                            popTo(ProjectFragment.class,false);
+                            showHideFragment(projectFragment,HomeFragment.newInstance());
                         }
                         break;
                     case 2:
