@@ -25,7 +25,6 @@ import com.yihaoer.wyh.wanandroid.di.component.DaggerHomeComponent;
 import com.yihaoer.wyh.wanandroid.di.module.HomeModule;
 import com.yihaoer.wyh.wanandroid.mvp.contract.HomeContract;
 import com.yihaoer.wyh.wanandroid.mvp.presenter.HomePresenter;
-import com.yihaoer.wyh.wanandroid.mvp.ui.activity.WebviewActivity;
 import com.yihaoer.wyh.wanandroid.mvp.ui.adapter.HomeRecyclerViewAdapter;
 import com.yihaoer.wyh.wanandroid.mvp.ui.entity.BannerItem;
 import com.yihaoer.wyh.wanandroid.mvp.ui.holder.BannerViewHolder;

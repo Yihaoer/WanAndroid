@@ -14,6 +14,11 @@ import com.yihaoer.wyh.wanandroid.mvp.contract.HierarchyContract;
 import com.yihaoer.wyh.wanandroid.mvp.presenter.HierarchyPresenter;
 
 public class HierarchyFragment extends SupportFragment<HierarchyPresenter> implements HierarchyContract.View {
+
+    public static HierarchyFragment newInstance() {
+        return new HierarchyFragment();
+    }
+
     @Override
     public void setupFragmentComponent(@NonNull AppComponent appComponent) {
 

@@ -3,13 +3,11 @@ package com.yihaoer.wyh.wanandroid.mvp.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -21,20 +19,21 @@ import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.jess.arms.di.component.AppComponent;
 import com.yihaoer.wyh.wanandroid.R;
 import com.yihaoer.wyh.wanandroid.app.base.SupportActivity;
+import com.yihaoer.wyh.wanandroid.app.base.SupportFragment;
 import com.yihaoer.wyh.wanandroid.di.component.DaggerMainComponent;
 import com.yihaoer.wyh.wanandroid.di.module.MainModule;
 import com.yihaoer.wyh.wanandroid.mvp.contract.MainContract;
 import com.yihaoer.wyh.wanandroid.mvp.presenter.MainPresenter;
-import com.yihaoer.wyh.wanandroid.mvp.ui.fragment.ProjectArticleFragment;
 import com.yihaoer.wyh.wanandroid.mvp.ui.fragment.ProjectFragment;
 import com.yihaoer.wyh.wanandroid.mvp.ui.fragment.main.GuideFragment;
+import com.yihaoer.wyh.wanandroid.mvp.ui.fragment.main.HierarchyFragment;
 import com.yihaoer.wyh.wanandroid.mvp.ui.fragment.main.HomeFragment;
 
 import java.util.TimerTask;
 
 import butterknife.BindView;
-import me.yokeyword.fragmentation.ISupportFragment;
-import me.yokeyword.fragmentation.SupportFragment;
+import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator;
+import me.yokeyword.fragmentation.anim.FragmentAnimator;
 
 /**
  * Author: Yihaoer
@@ -54,6 +53,9 @@ public class MainActivity extends SupportActivity<MainPresenter> implements Main
     TextView mToolbarTitle;
     @BindView(R.id.bottom_nav_bar)
     BottomNavigationBar mBottomNavBar;
+
+    private SupportFragment[] fragments = new SupportFragment[4];
+    private int prePosition = 0; //上一次点击的底部bar的position
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -84,9 +86,9 @@ public class MainActivity extends SupportActivity<MainPresenter> implements Main
     //    }
     @Override
     public void initData(Bundle savedInstanceState) {
+        initFragmentation();
         initToolbar();
         initNavigationView();
-        initFragmentation();
         initBottomNavigationBar();
     }
 
@@ -118,6 +120,9 @@ public class MainActivity extends SupportActivity<MainPresenter> implements Main
     @Override
     public void onBackPressedSupport() {
         super.onBackPressedSupport();
+//        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+//
+//        }
     }
 
     /**
@@ -142,7 +147,18 @@ public class MainActivity extends SupportActivity<MainPresenter> implements Main
     private void initFragmentation() {
         HomeFragment homeFragment = findFragment(HomeFragment.class);
         if (homeFragment == null) {
-            loadRootFragment(R.id.content_fl, HomeFragment.newInstance(), true, false);
+//            loadRootFragment(R.id.content_fl, HomeFragment.newInstance(), true, false);
+            fragments[0] = HomeFragment.newInstance();
+            fragments[1] = ProjectFragment.newInstance();
+            fragments[2] = GuideFragment.newInstance();
+            fragments[3] = HierarchyFragment.newInstance();
+            loadMultipleRootFragment(R.id.content_fl,0,
+                    fragments);
+        }else {
+            fragments[0] = homeFragment;
+            fragments[1] = findFragment(ProjectFragment.class);
+            fragments[2] = findFragment(GuideFragment.class);
+            fragments[3] = findFragment(HierarchyFragment.class);
         }
     }
 
@@ -192,52 +208,54 @@ public class MainActivity extends SupportActivity<MainPresenter> implements Main
         mBottomNavBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {
             @Override
             public void onTabSelected(int position) {
-                switch (position) {
-                    case 0:
-                        mToolbarTitle.setText(R.string.home_page);
-                        HomeFragment homeFragment = findFragment(HomeFragment.class);
-                        if (homeFragment == null) {
-                            start(HomeFragment.newInstance(), SupportFragment.SINGLETASK);
-                        } else {
+                showHideFragment(fragments[position],fragments[prePosition]);
+                prePosition = position; //记录上一次点击的底部bar的position
+//                switch (position) {
+//                    case 0:
+//                        mToolbarTitle.setText(R.string.home_page);
+//                        HomeFragment homeFragment = findFragment(HomeFragment.class);
+//                        if (homeFragment == null) {
+//                            start(HomeFragment.newInstance(),SupportFragment.SINGLETASK);
+//                        } else {
+////                            popTo(HomeFragment.class, false, new TimerTask() {
+////                                @Override
+////                                public void run() {
+//                                    start(homeFragment,SupportFragment.SINGLETOP);
+////                                }
+////                            });
+////                            popTo(HomeFragment.class,true);
+////                            startWithPop(homeFragment);
+////                                startWithPopTo(homeFragment,HomeFragment.class,false);
+//                        }
+//                        break;
+//                    case 1:
+//                        mToolbarTitle.setText(R.string.project_page);
+////                        ProjectArticleFragment fragment = findFragment(ProjectArticleFragment.class);
+////                        if (fragment == null){
+////                            Log.i("asdsad", "fragment is alive = false");
+////                        }else{
+////                            Log.i("asdsad", "fragment is alive = true");
+////                        }
+//                        ProjectFragment projectFragment = findFragment(ProjectFragment.class);
+//                        if (projectFragment == null) {
 //                            popTo(HomeFragment.class, false, new TimerTask() {
 //                                @Override
 //                                public void run() {
-//                                    start(homeFragment,SupportFragment.SINGLETOP);
+//                                    start(ProjectFragment.newInstance());
 //                                }
 //                            });
-//                            popTo(HomeFragment.class,true);
-                            startWithPop(homeFragment);
-                                startWithPopTo(homeFragment,HomeFragment.class,false);
-                        }
-                        break;
-                    case 1:
-                        mToolbarTitle.setText(R.string.project_page);
-//                        ProjectArticleFragment fragment = findFragment(ProjectArticleFragment.class);
-//                        if (fragment == null){
-//                            Log.i("asdsad", "fragment is alive = false");
-//                        }else{
-//                            Log.i("asdsad", "fragment is alive = true");
-//                        }
-                        ProjectFragment projectFragment = findFragment(ProjectFragment.class);
-                        if (projectFragment == null) {
-                            popTo(HomeFragment.class, false, new TimerTask() {
-                                @Override
-                                public void run() {
-                                    start(ProjectFragment.newInstance(),SupportFragment.SINGLETASK);
-                                }
-                            });
-                        } else {
+//                        } else {
+////                            start(projectFragment,ISupportFragment.SINGLETASK);
 //                            popTo(ProjectFragment.class,false);
-                            showHideFragment(projectFragment,HomeFragment.newInstance());
-                        }
-                        break;
-                    case 2:
-                        mToolbarTitle.setText(R.string.guide_page);
-                        break;
-                    case 3:
-                        mToolbarTitle.setText(R.string.hierarchy_page);
-                        break;
-                }
+//                        }
+//                        break;
+//                    case 2:
+//                        mToolbarTitle.setText(R.string.guide_page);
+//                        break;
+//                    case 3:
+//                        mToolbarTitle.setText(R.string.hierarchy_page);
+//                        break;
+//                }
             }
 
             @Override
@@ -250,5 +268,11 @@ public class MainActivity extends SupportActivity<MainPresenter> implements Main
 
             }
         });
+    }
+
+    @Override
+    public FragmentAnimator onCreateFragmentAnimator() {
+        // 设置横向(和安卓4.x动画相同)
+        return new DefaultHorizontalAnimator();
     }
 }
