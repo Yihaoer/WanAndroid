@@ -10,6 +10,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.yihaoer.wyh.wanandroid.R;
+import com.yihaoer.wyh.wanandroid.mvp.ui.activity.MainActivity;
 
 import butterknife.ButterKnife;
 import timber.log.Timber;
@@ -41,11 +42,11 @@ public class ActivityLifecycleCallbacksImpl implements Application.ActivityLifec
             if (activity.findViewById(R.id.toolbar) != null) {
 
                 if (activity instanceof AppCompatActivity) {
-//                    ((AppCompatActivity) activity).setSupportActionBar(activity.findViewById(R.id.toolbar));
+                    ((AppCompatActivity) activity).setSupportActionBar(activity.findViewById(R.id.toolbar));
                     ((AppCompatActivity) activity).getSupportActionBar().setDisplayShowTitleEnabled(false);
                 } else {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//                        activity.setActionBar((android.widget.Toolbar) activity.findViewById(R.id.toolbar));
+                        activity.setActionBar(activity.findViewById(R.id.toolbar));
                         activity.getActionBar().setDisplayShowTitleEnabled(false);
                     }
                 }
@@ -53,8 +54,8 @@ public class ActivityLifecycleCallbacksImpl implements Application.ActivityLifec
 //            if (activity.findViewById(R.id.toolbar_title) != null) {
 //                ((TextView) activity.findViewById(R.id.toolbar_title)).setText(activity.getTitle());
 //            }
-            if (activity.findViewById(R.id.toolbar_back) != null) {
-                activity.findViewById(R.id.toolbar_back).setOnClickListener(v -> {
+            if (activity.findViewById(R.id.toolbar_left_rl) != null && !(activity instanceof MainActivity)) {
+                activity.findViewById(R.id.toolbar_left_rl).setOnClickListener(v -> {
                     activity.onBackPressed();
                 });
             }

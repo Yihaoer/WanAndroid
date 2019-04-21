@@ -69,6 +69,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
                 Intent intent = new Intent(mContext.getApplicationContext(), WebviewActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //通过context跳转一定要加这个，否则报错
                 intent.putExtra("url", articleItem.getLink());
+                intent.putExtra("title",articleItem.getTitle());
                 mContext.getApplicationContext().startActivity(intent);
             }
         });

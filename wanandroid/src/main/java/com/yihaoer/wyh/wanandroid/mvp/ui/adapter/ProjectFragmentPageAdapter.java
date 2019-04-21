@@ -46,8 +46,6 @@ public class ProjectFragmentPageAdapter extends FragmentPagerAdapter {
     public void setData(List<ProjectArticleFragment> fragmentList, List<ProjectTypeItem> projectTypeList){
         this.fragmentList = fragmentList;
         this.projectTypeList = projectTypeList;
-//        this.fragmentList.addAll(fragmentList);
-//        this.projectTypeList.addAll(projectTypeList);
         notifyDataSetChanged();
     }
 }

@@ -40,7 +40,6 @@ public class ProjectFragment extends SupportFragment<ProjectPresenter> implement
     private List<ProjectArticleFragment> mFragmentList = new ArrayList<>();
     private List<ProjectTypeItem> mProjectTypeList = new ArrayList<>();
     private ProjectArticleFragment mProjectArticleFragment;
-    private ProjectArticleFragment[] fragments;
 
     @BindView(R.id.project_tablayout)
     TabLayout mTabLayout;
@@ -147,25 +146,11 @@ public class ProjectFragment extends SupportFragment<ProjectPresenter> implement
      * 根据项目分类数量来添加fragment
      */
     private void addProjectArticleFragment() {
-        //        mFragmentList.clear();
-//        fragments = new ProjectArticleFragment[mProjectTypeList.size()];
         for (int i = 0; i < mProjectTypeList.size(); i++) {
             mProjectArticleFragment = new ProjectArticleFragment();
             mProjectArticleFragment.setCid(mProjectTypeList.get(i).getId());
             mFragmentList.add(mProjectArticleFragment);
-//            fragments[i] = mProjectArticleFragment;
         }
-//        ProjectArticleFragment projectArticleFragment = findChildFragment(ProjectArticleFragment.class);
-        //        if (projectArticleFragment == null) {
-        //            for (int i = 0; i < mProjectTypeList.size(); i++) {
-        //                mProjectArticleFragment = new ProjectArticleFragment();
-        //                mProjectArticleFragment.setCid(mProjectTypeList.get(i).getId());
-        //                fragments[i] = mProjectArticleFragment;
-        ////                mFragments[1] = new ProjectArticleFragment();
-        //                //            loadMultipleRootFragment(R.id.project_viewpager,0, mFragmentList.toArray(new ProjectArticleFragment[mFragmentList.size()]));
-        //            }
-//        loadMultipleRootFragment(R.id.project_viewpager, 0, fragments);
-        //        }
         mFragmentPagerAdapter.setData(mFragmentList, mProjectTypeList);
     }
 }

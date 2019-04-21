@@ -60,8 +60,8 @@ public class ProjectRecycleViewAdapter extends RecyclerView.Adapter<ProjectRecyc
         projectArticleHolder.articleAuthorTv.setText(projectArticleItem.getAuthor());
         PictureLoader.getInstance()
                 .load(projectArticleItem.getEnvelopePic())
-                .cacheInMemory(false)
-                .cacheOnDisk(false)
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
                 .into(projectArticleHolder.articleEnvelopePicIv);
 
         //设置每个item的点击事件，点击后跳转到对应url的webview
@@ -71,6 +71,7 @@ public class ProjectRecycleViewAdapter extends RecyclerView.Adapter<ProjectRecyc
                 mIntent = new Intent(mContext, WebviewActivity.class);
                 mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //通过context跳转一定要加这个，否则报错
                 mIntent.putExtra("url", projectArticleItem.getLink());
+                mIntent.putExtra("title",projectArticleItem.getTitle());
                 mContext.getApplicationContext().startActivity(mIntent);
             }
         });

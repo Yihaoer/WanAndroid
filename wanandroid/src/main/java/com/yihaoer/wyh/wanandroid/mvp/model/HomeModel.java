@@ -39,7 +39,7 @@ public class HomeModel extends BaseModel implements HomeContract.Model {
     /**
      * 获取首页banner数据
      *
-     * @param refresh
+     * @param clearCache
      * @return
      */
     @Override

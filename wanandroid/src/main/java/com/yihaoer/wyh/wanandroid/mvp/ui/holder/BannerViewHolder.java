@@ -37,8 +37,8 @@ public class BannerViewHolder implements MZViewHolder<BannerItem> {
         // 数据绑定
         PictureLoader.getInstance()
                 .load(bannerItem.getImagePath())
-                .cacheInMemory(false)
-                .cacheOnDisk(false)
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
                 .into(mImageView);
 
         //设置每个图片的点击事件，点击后跳转到对应url的webview
@@ -48,6 +48,7 @@ public class BannerViewHolder implements MZViewHolder<BannerItem> {
                 Intent intent = new Intent(mContext.getApplicationContext(), WebviewActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //通过context跳转一定要加这个，否则报错
                 intent.putExtra("url", bannerItem.getUrl());
+                intent.putExtra("title",bannerItem.getTitle());
                 mContext.getApplicationContext().startActivity(intent);
             }
         });

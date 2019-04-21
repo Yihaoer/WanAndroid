@@ -40,11 +40,11 @@ public class AppLifecyclesImpl implements AppLifecycles {
     public void onCreate(@NonNull Application application) {
 
         // 栈视图等功能，建议在Application里初始化
-        Fragmentation.builder()
-                // 显示悬浮球 ; 其他Mode:SHAKE: 摇一摇唤出   NONE：隐藏
-                .stackViewMode(Fragmentation.BUBBLE)
-                .debug(BuildConfig.DEBUG)
-                .install();
+//        Fragmentation.builder()
+//                // 显示悬浮球 ; 其他Mode:SHAKE: 摇一摇唤出   NONE：隐藏
+//                .stackViewMode(Fragmentation.BUBBLE)
+//                .debug(BuildConfig.DEBUG)
+//                .install();
 
         if (LeakCanary.isInAnalyzerProcess(application)) {
             // This process is dedicated to LeakCanary for heap analysis.

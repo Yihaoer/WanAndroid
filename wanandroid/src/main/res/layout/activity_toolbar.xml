@@ -3,34 +3,47 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
+    android:layout_height="40dp"
     android:background="@color/color_566ffe"
     android:elevation="4dp"
     android:fitsSystemWindows="true"
     app:contentInsetStart="0dp">
 
     <RelativeLayout
-        android:id="@+id/toolbar_back"
+        android:id="@+id/toolbar_left_rl"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:gravity="left">
 
         <ImageView
+            android:id="@+id/toolbar_back_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:src="@drawable/ic_arrow_back_white_24dp" />
+
+        <ImageView
+            android:id="@+id/toolbar_menu_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:visibility="gone"
+            android:src="@mipmap/ic_toolbar_left_menu"/>
     </RelativeLayout>
 
     <TextView
         android:id="@+id/toolbar_title"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="@string/app_name"
         android:textColor="@color/white"
-        android:textSize="18dp"
-        android:text="@string/app_name" />
+        android:textSize="16dp" />
 
 </android.support.v7.widget.Toolbar>

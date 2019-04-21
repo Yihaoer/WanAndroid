@@ -59,11 +59,6 @@ public class HomePresenter extends BasePresenter<HomeContract.Model, HomeContrac
 
                     @Override
                     public void onNext(BannerBean bannerBean) {
-//                        List<BannerItem> list = mModel.parseBannerData(bannerBean.getData());
-//                        List<String> imgList = new ArrayList<>();
-//                        for (int i = 0; i < list.size(); i++) {
-//                            imgList.add(list.get(i).getImagePath());
-//                        }
                         mRootView.setBanner(mModel.parseBannerData(bannerBean.getData()));
                     }
 
